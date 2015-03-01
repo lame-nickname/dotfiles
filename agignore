@@ -1,0 +1,12 @@
+*.csv
+*.tsv
+*.tmp*
+*.pdf
+*.log
+*.so
+*.egg-info
+*.o
+*.pyc
+*.class
+*.so
+tags

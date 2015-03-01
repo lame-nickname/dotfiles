@@ -1,0 +1,8 @@
+\set PROMPT1 '[%M]%/%R%#%x '
+\set COMP_KEYWORD_CASE upper
+\set HISTCONTROL ignoredups
+\x auto
+\pset null [null]
+\timing
+\pset border 2
+\pset pager always

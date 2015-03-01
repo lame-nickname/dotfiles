@@ -1,0 +1,15 @@
+--python-kinds=-iv
+--javascript-kinds=cmf
+--langmap=Lisp:+.clj
+--languages=-html
+
+--fields=+l
+--recurse=yes
+--tag-relative=yes
+
+--exclude=build
+--exclude=dist
+--exclude=.git
+--exclude=.hg
+--exclude=*.min.js
+--exclude=*.pyc
