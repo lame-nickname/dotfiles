@@ -45,6 +45,10 @@ NeoBundle 'moll/vim-bbye'
 
 NeoBundle 'bling/vim-bufferline'
 
+NeoBundle 'https://bitbucket.org/ludovicchabant/vim-lawrencium'
+
+NeoBundle 'elixir-lang/vim-elixir'
+
 " Rust support
 NeoBundle 'wting/rust.vim'
 
