@@ -24,6 +24,9 @@ NeoBundle 'idbrii/AsyncCommand'
 " Lisp!
 NeoBundle 'kovisoft/slimv'
 
+" Enhanced C syntax highlighting
+NeoBundle 'justinmk/vim-syntax-extra'
+
 " Toggle quickfix window
 NeoBundle 'milkypostman/vim-togglelist'
 
@@ -50,7 +53,7 @@ NeoBundle 'https://bitbucket.org/ludovicchabant/vim-lawrencium'
 NeoBundle 'elixir-lang/vim-elixir'
 
 " Rust support
-NeoBundle 'wting/rust.vim'
+NeoBundle 'rust-lang/rust.vim'
 
 " Allow local vimrcs
 NeoBundle 'embear/vim-localvimrc'
@@ -77,7 +80,8 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'kien/ctrlp.vim'
 " Command-T like ctrp matcher
-NeoBundle 'JazzCore/ctrlp-cmatcher'
+" NeoBundle 'JazzCore/ctrlp-cmatcher'
+NeoBundle 'FelikZ/ctrlp-py-matcher'
 "NeoBundle 'wincent/Command-T'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-surround'
@@ -99,7 +103,7 @@ NeoBundle 'Shougo/vimproc.vim', {
       \    },
       \ }
 
-"NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python']}}
+NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python']}}
 
 call neobundle#end()
 NeoBundleCheck
@@ -111,8 +115,6 @@ color summerfruit256"
 
 " change the mapleader from \ to ,
 let mapleader=","
-
-inoremap jk <esc>
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>6r :e $MYVIMRC<CR>
@@ -165,8 +167,6 @@ set foldenable
 set foldmethod=indent
 set foldlevel=20
 
-set colorcolumn=80,81
-
 " Enable autoread
 set autoread
 autocmd CursorHold * checktime
@@ -178,11 +178,11 @@ filetype plugin on
 
 " Dont change tabs to spaces in make files
 autocmd FileType make setlocal noexpandtab
+autocmd FileType python set colorcolumn=80,81
 
-" Execute clojure/python
+" Execute clojure/python/rust
 au FileType python map <buffer> <S-r> :w<CR>:!/usr/bin/env python % <CR>
 au FileType clojure map <buffer> <S-r> :Eval <CR>
-"au FileType rust map <buffer> <S-r> :w<CR>:!rustc % && echo 'compiled ok\!' && ./%:r <CR>
 au FileType rust map <buffer> <S-r> :w<CR>:!cargo run <CR>
 au FileType rust map <buffer> <S-e> :w<CR>:!cargo test <CR>
 
@@ -289,7 +289,7 @@ let g:jedi#rename_command = "<leader>r"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#show_call_signatures = "1"
 let g:jedi#use_tabs_not_buffers = 0
-let g:jedi#popup_on_dot = 0
+"let g:jedi#popup_on_dot = 0
 " Disable preview popup during autocopletion
 autocmd FileType python setlocal completeopt-=preview
 
@@ -299,7 +299,7 @@ nnoremap <silent> <leader>D :NERDTreeFind<CR>
 let NERDTreeHijackNetrw=0
 " Close vim when NERDTree is the last opened window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-let NERDTreeIgnore=['\.pyc$', '\.swp$']
+let NERDTreeIgnore=['\.pyc$', '\.swp$', '\.orig$']
 let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
 
@@ -316,7 +316,8 @@ endif
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_map = '<leader>T'
-let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+"let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_switch_buffer = 0
 nnoremap <silent> <leader>t :CtrlPMixed<CR>
 nnoremap <silent> <leader>m :CtrlPMRU<CR>
@@ -382,3 +383,9 @@ nnoremap <silent> <leader>v :call ToggleQuickfixList()<CR>
 
 let g:slimv_swank_cmd = '!osascript -e "tell application \"Terminal\" to do script \"sbcl --load ~/.vim/bundle/slimv/slime/start-swank.lisp\""'
 "let g:paredit_mode=0
+
+" Set cargo as compiler for rust files
+autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+
+" Use better color for C function names
+:hi cUserFunction guifg=Magenta
